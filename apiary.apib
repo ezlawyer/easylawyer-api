@@ -1,0 +1,330 @@
+FORMAT: 1A
+
+# Ezlawyer
+
+Ezlawyer é uma plataforma que permite gesta da contratação de 
+correspondentes jurídicos.
+
+# Group Fluxo de integração
+
+Descrever o fluxo necessário para integrar uma Task
+
+# Status das transações
+
+Descrever das trasações de uma Task
+
+# Interpretrando status retornados pela API
+
+Descrever os status retornados na API
+
+# Group Autenticação
+
+Informações necessárioas para a autenticação da API.
+
+## Obtendo o Token de autenticação [/oauth2/token/]
+
+### Gerando o Token [POST]
+
+Para consumir os endpoints fornecidos pela Ezlawyer é necessário informar no 
+cabeçalho de cada requisição o token obtido. 
+
++ grant_type (string) - client_credentials.
++ client_id (string) - Informar o client_id fornecido. 
++ client_secret (string)- Informar o client_secret fornecido.
+
++ Request (application/json)
+        
+    + Body
+    
+            {
+                "grant_type": "client_credentials",
+                "client_id": "3i9i9VV3ossnxvviTtzAYCtHS6tVD2Wj0djVQYAz",
+                "client_secret": "ZSWmdBQmhDiWjULojRPEXnTeArdIN3BB2HfrN19HiK14QaLUER0NmA9OvjMCVzyvlvof8BjOQeBow2dCCGIflBVXZmJflFJGaGcme26FFqyb5KGiCRdYbHG2fbEEDtIY",
+            }
+        
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "access_token": "lD4YUAqY5UVYFqowSWirTMilKGWl8Q",
+                "expires_in": 36000,
+                "token_type": "Bearer",
+                "scope": "read write groups"
+            }
+
+
+# Group Pessoas
+
+## Mantendo o cadastro de pessoas [/person/]
+
+### Criar uma pessoa [POST]
+
++ name: `Tony Stark` (string) - Nome da pessoa
++ legal_name: `Tony Stark` (string, required) - Razão social
++ cpf_cnpj: `01234567890` (string) - CPF ou CNPJ da pessoa
++ legal_type: `F ou J` (string | enum[string], required) - Tipo da pessoa
+
+    + Padrão: `F - Física`
+    
+    + Opções:
+        + `F - Física`
+        + `J - Jurídica`
+        
++ is_lawyer: `false` (boolean) - Esta opção define se a pessoa é um advogado
++ is_costumer: `false` (boolean) - Esta opção define se a pessoa é um cliente
++ is_supplier: `false`(boolean) - Esta opção define se a pessoa é um fornecedor
++ is_active: `true` (boolean) - Esta opção define se a pessoa está ativa
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "legal_name": ''
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+            }
+
+### Listando pessoas [GET]
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer yQHcxUeoxp2UAdfIS5JAHdwzzVOnp5"
+        
+    + Body
+
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 11175,
+                        "name": "THIAGO ABREU RODRIGUES",
+                        "legal_name": "THIAGO ABREU RODRIGUES",
+                        "legal_type": "F",
+                        "cpf_cnpj": null,
+                        "is_lawyer": false,
+                        "is_customer": false,
+                        "is_supplier": false,
+                        "is_active": true,
+                        "import_from_legacy": false,
+                        "auth_user": 816,
+                        "alter_user": 816,
+                        "legacy_code": ""
+                    }
+                ]
+            }
+
+### Alterando pessoas [PUT]
+
+# Group Pastas
+
+## Operações gerais [/folder/]
+
+### Criar uma pasta [POST]
++ person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
++ cost_center: `15` (integer) - Identificador do centro de custo
++ legacy_code: `123456` (string) - Identificador da pasta no sistema legado
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>",
+        
+    + Body
+        
+            {
+                "person_customer": 11194,
+                "cost_center":
+                "legacy_code":
+            }
+
+### Listando pastas [GET /folder/{id}]
+Listar Pastas cadastradas para o escritíorio da sessão. 
+Caso seja informado um identificador será listado apenas a pasta selecionado.
+
++ Parameters
+
+    + id: 1 (number, optional) - Identificador único da pasta.
+
++ Response 201 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+        
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 13604,
+                        "office": 171,
+                        "folder_number": 1,
+                        "person_customer": 11194,
+                        "cost_center": null,
+                        "create_user": 2,
+                        "legacy_code": null
+                    }
+                ]
+            }
+        
+
+### Alterando pasta [PUT /folder/{id}]
+Alterar a pasta de acordo com o ID informado
+
++ person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
++ cost_center: `15` (integer) - Identificador do centro de custo
++ legacy_code: `123456` (string) - Identificador da pasta no sistema legado
+
++ Parameters
+
+    + id: 1 (number, required) - Identificador único da pasta.
+
++ Response 200 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+        
+            {
+                "id": 13604,
+                "folder_number": 1,
+                "person_customer": 11194,
+                "cost_center": null,
+                "legacy_code": null
+            }
+
+### Apagando pasta [DELETE /folder/{id}/]
+Apaga a pasta de acordo com o Id informado.
+
++ Parameters
+
+    + id: 1 (number, required) - Identificador único da pasta.
+
++ Response 201 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+    
+            {
+            }
+
+# Group Processos
+
+## Operações gerais [/lawsuit/]
+
+### Criar um processo [POST]
++ person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
++ cost_center: `15` (integer) - Identificador do centro de custo
++ legacy_code: `123456` (string) - Identificador da pasta no sistema legado
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>",
+        
+    + Body
+        
+            {
+                "person_customer": 11194,
+                "cost_center":
+                "legacy_code":
+            }
+
+### Listando processos [GET /lawsuit/{id}]
+Lista Processos cadastradas para o escritíorio da sessão. 
+Caso seja informado um identificador será listado apenas o processo selecionado.
+
++ Parameters
+
+    + id: 1 (number, optional) - Identificador único da pasta.
+
++ Response 201 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+        
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 13604,
+                        "office": 171,
+                        "folder_number": 1,
+                        "person_customer": 11194,
+                        "cost_center": null,
+                        "create_user": 2,
+                        "legacy_code": null
+                    }
+                ]
+            }
+        
+
+### Alterando processo [PUT /lawsuit/{id}]
+Altera o processo de acordo com o ID informado
+
++ person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
++ cost_center: `15` (integer) - Identificador do centro de custo
++ legacy_code: `123456` (string) - Identificador da pasta no sistema legado
+
++ Parameters
+
+    + id: 1 (number, required) - Identificador único da pasta.
+
++ Response 200 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+        
+            {
+                "id": 13604,
+                "folder_number": 1,
+                "person_customer": 11194,
+                "cost_center": null,
+                "legacy_code": null
+            }
+
+### Apagando processo [DELETE /lawsuit/{id}/]
+Apaga o processo de acordo com o Id informado.
+
++ Parameters
+
+    + id: 1 (number, required) - Identificador único da pasta.
+
++ Response 201 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>" 
+        
+    + Body
+    
+            {
+            }
