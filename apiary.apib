@@ -246,7 +246,7 @@ Cria uma pasta vinculada ao escritório da sessão de acordo com os dados inform
             {
                 "person_customer": 11384,
                 "cost_center": null,
-                "legacy_code": null
+                "legacy_code": ""
             }
     
 + Response 201 (application/json)
@@ -258,7 +258,7 @@ Cria uma pasta vinculada ao escritório da sessão de acordo com os dados inform
                 "folder_number": 1,
                 "person_customer": 11384,
                 "cost_center": null,
-                "legacy_code": null
+                "legacy_code": ""
             }
 
 ### Listando pastas [GET /folder/{id}]
@@ -286,14 +286,14 @@ Caso seja informado um identificador será listado apenas a pasta selecionado.
                         "folder_number": 2,
                         "person_customer": 11384,
                         "cost_center": null,
-                        "legacy_code": null
+                        "legacy_code": ""
                     },
                     {
                         "id": 21237,
                         "folder_number": 1,
                         "person_customer": 11384,
                         "cost_center": null,
-                        "legacy_code": null
+                        "legacy_code": ""
                     }
                 ]
             }
@@ -355,11 +355,13 @@ Apaga a pasta de acordo com o Id informado.
 # Group Processos
 
 ## Operações gerais [/lawsuit/]
-
-### Criar um processo [POST]
+### Campos disponíveis
 + person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
 + cost_center: `15` (integer) - Identificador do centro de custo
 + legacy_code: `123456` (string) - Identificador da pasta no sistema legado
+
+### Criar um processo [POST]
+Cria um processo no escritório da sessão
 
 + Request (application/json)
     
