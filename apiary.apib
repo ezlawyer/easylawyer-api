@@ -23,11 +23,7 @@ Informações necessárioas para a autenticação da API.
 
 ## Obtendo o Token de autenticação [/oauth2/token/]
 
-### Propriedades
-
-+ grant_type (string, required) - client_credentials.
-+ client_id (string, required) - Informar o client_id fornecido. 
-+ client_secret (string, required)- Informar o client_secret fornecido.
++ Attributes (array[Authentication])
 
 ### Gerando o Token [POST]
 
@@ -389,7 +385,7 @@ Apaga a pasta de acordo com o Id informado.
 # Group Processos
 
 ## Operações gerais [/lawsuit/]
-### Campos disponíveis
+
 + Attributes (array[LawSuit])
 
 ### Criar um processo [POST]
@@ -488,9 +484,9 @@ Apaga o processo de acordo com o Id informado.
 ## Data Structures
 
 ### Authentication
-+ grant_type: client_credentials (required)
-+ client_id: <CLIENT_ID> (required) 
-+ client_secret: <CLIENT_SECRET> (required)
++ grant_type: client_credentials (required) - Fixo: client_credentials.
++ client_id: <CLIENT_ID> (required) - Informar o client_id fornecido.
++ client_secret: <CLIENT_SECRET> (required) - Informar o client_secret fornecido.
 
 ### Person
 + legal_name: Alvos Dumbledore (required) - Nome da Pessoa ou Razão social
@@ -510,3 +506,8 @@ Apaga o processo de acordo com o Id informado.
 + law_suit_number: `0000000-00.2018.0.00.0000` (string, required) - Número do processo
 + court_district: 952 (number, required) - Id da comarca a ser vinculada com o processo
 + instance: 50 (number, required) - Id da instância a ser vinculada com o processo
++ person_lawyer: 11194 (number) - Identificador do advogado cadastrado no escritório que será vinculado ao processo
++ organ: 0 (number) - Identificador do órgão cadastrado no escritório que será vinculado ao processo
++ court_division: 0 (number) - Identificador da vara cadastrada no escritório que será vinculada ao processo
++ is_current_instance: false (boolean)
++ opposing_party: '' (string) - Especificação da parte adversa do processo
