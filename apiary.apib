@@ -137,7 +137,7 @@ Cria uma instância e faz o seu vínculo no escritório da sessão de acordo com
 
 ### Listando instâncias [GET /instance/{id}/]
 Lista as instâncias cadastradas para o escritório da Sessão.
-Caso seja informado o identificador, busca os dados de uma pessoa específica
+Caso seja informado o identificador, busca os dados de uma instância específica
 
 + Parameters
 
@@ -224,6 +224,169 @@ Buscar dados de instâncias cadastradas na base de dados
     + search: judicial - Busca nos campos de nome e legacy_code da instância.
     + name: judicial - Busca no campo de nome da instância.
     + `legacy_code`: codigo_legado - Busca no campo legacy_code da instância, pesquisa por valores exatos.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 37,
+                        "name": "01 Instância Judicial",
+                        "legacy_code": "codigo_legado"
+                    }
+                ]
+            }
+
+# Group Órgãos
+
+## Mantendo o cadastro de órgãos [/organ/]
+
++ Attributes (array[Organ])
+
+### Criar uma instância [POST]
+Cria um órgão e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[Organ])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "legal_name": "Fórum de Belo Horizonte",
+                "court_district": 895
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 12193,
+                "legal_name": "Fórum de Belo Horizonte 2",
+                "name": null,
+                "cpf_cnpj": null,
+                "court_district": 895,
+                "is_active": true,
+                "legacy_code": null
+            }
+
+### Listando órgãos [GET /organ/{id}/]
+Lista os órgãos cadastrados para o escritório da Sessão.
+Caso seja informado o identificador, busca os dados de um órgão específico
+
++ Parameters
+
+    + id: 12193 (number, optional) - Identificador único do órgão.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 12193,
+                        "legal_name": "Fórum de Belo Horizonte",
+                        "name": null,
+                        "cpf_cnpj": null,
+                        "court_district": 895,
+                        "is_active": true,
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 12194,
+                        "legal_name": "Fórum de Belo Horizonte 2",
+                        "name": null,
+                        "cpf_cnpj": null,
+                        "court_district": 895,
+                        "is_active": true,
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 12192,
+                        "legal_name": "Fórum de Contagem",
+                        "name": null,
+                        "cpf_cnpj": null,
+                        "court_district": 952,
+                        "is_active": true,
+                        "legacy_code": null
+                    }
+                ]
+            }
+
+### Alterando órgão [PUT /organ/{id}]
+Altera o cadastro de um órgão específico, de acordo com o id informado.
+
++ Parameters
+
+    + id: 12194 (number, required) - Identificador único do órgão.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "legal_name": "Fórum de Belo Horizonte 200",
+                "court_district": 895,
+                "legacy_code": "codigo_legado"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 12194,
+                "legal_name": "Fórum de Belo Horizonte 200",
+                "name": null,
+                "cpf_cnpj": null,
+                "court_district": 895,
+                "is_active": true,
+                "legacy_code": "codigo_legado"
+            }
+
+### Apagando órgão [DELETE /organ/{id}/]
+Apaga o órgão de acordo com o id informado.
+
++ Parameters
+
+    + id: 12194 (number, required) - Identificador único do órgão.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar instancias [GET /organ/search={search}]
+Buscar dados de órgãos cadastrados na base de dados
++ Parameters
+
+    + search: Belo Horizonte - Busca nos campos legal_name e legacy_code do órgão, ou pelas iniciais ou nome da comarca em que o órgão está vinculado.
 
 + Response 201 (application/json)
 
@@ -662,3 +825,10 @@ Apaga o processo de acordo com o Id informado.
 ### Instance
 + name: `1 Instância Judicial` (string, required) - Nome da Instância
 + legacy_code: `123456` (string) - Identificador da instância no sistema legado
+
+### Organ
++ legal_name: Fórum Belo Horizonte (required) - Nome do Órgão
++ name: Fórum Belo Horizonte - Nome ou Nome Fantasia do Órgão
++ cpf_cnpj: 00000000000 - CPF ou CNPJ (devem ser válidos, caso seja enviado)
++ court_district: 895 (number, required) - Id da comarca a ser vinculada com o orgão
++ legacy_code: `123456` (string) - Identificador do órgão no sistema legado
