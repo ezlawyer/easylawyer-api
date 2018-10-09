@@ -409,6 +409,148 @@ Buscar dados de órgãos cadastrados na base de dados
                 ]
             }
 
+# Group Varas
+
+## Mantendo o cadastro de varas [/court_division//]
+
++ Attributes (array[CourtDivision])
+
+### Criar uma vara [POST]
+Cria uma vara e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[CourtDivision])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "name": "1ª VARA JUIZADO ESPECIAL CIVEL E CRIMINAL",
+                "court_district": 895
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 15679,
+                "name": "1ª VARA JUIZADO ESPECIAL CIVEL E CRIMINAL",
+                "legacy_code": null
+            }
+
+### Listando as varas [GET /court_division/{id}/]
+Lista as varas cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma vara específica
+
++ Parameters
+
+    + id: 15681 (number, optional) - Identificador único do órgão.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 15681,
+                        "name": "8° ARQUIVO GERAL CÍVEL",
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 15680,
+                        "name": "SESSÃO ESPECIAL",
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 15679,
+                        "name": "1ª VARA JUIZADO ESPECIAL CIVEL E CRIMINAL",
+                        "legacy_code": null
+                    }
+                ]
+            }
+
+### Alterando vara [PUT /court_division/{id}]
+Altera o cadastro de uma vara específica, de acordo com o id informado.
+
++ Parameters
+
+    + id: 15681 (number, required) - Identificador único do órgão.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "name": "8° ARQUIVO GERAL CÍVEL",
+                "legacy_code": "codigo_legado"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 15681,
+                "name": "8° ARQUIVO GERAL CÍVEL",
+                "legacy_code": "codigo_legado"
+            }
+
+### Apagando vara [DELETE /court_division/{id}/]
+Apaga a vara de acordo com o id informado.
+
++ Parameters
+
+    + id: 15681 (number, required) - Identificador único da vara.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar vara [GET /court_division/search={search}]
+Buscar dados de varas cadastrados na base de dados.
++ Parameters
+
+    + search: codigo_legado - Busca nos campos name e legacy_code da vara.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 15682,
+                        "name": "8° ARQUIVO GERAL CÍVEL",
+                        "legacy_code": "codigo_legado"
+                    }
+                ]
+            }
+
 # Group Pessoas
 
 ## Mantendo o cadastro de pessoas [/person/]
@@ -832,3 +974,7 @@ Apaga o processo de acordo com o Id informado.
 + cpf_cnpj: 00000000000 - CPF ou CNPJ (devem ser válidos, caso seja enviado)
 + court_district: 895 (number, required) - Id da comarca a ser vinculada com o orgão
 + legacy_code: `123456` (string) - Identificador do órgão no sistema legado
+
+### CourtDivision
++ name: Vara Juizado Especial Civel e Criminal (required) - Nome da Vara
++ legacy_code: `123456` (string) - Identificador da vara no sistema legado
