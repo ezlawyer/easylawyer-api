@@ -818,15 +818,10 @@ Apaga a pasta de acordo com o Id informado.
 
     + id: 1 (number, required) - Identificador único da pasta.
 
-+ Response 201 (application/json)
++ Response 204 (application/json)
     + Headers
     
             Authorization: "Bearer <TOKEN>" 
-        
-    + Body
-    
-            {
-            }
 
 # Group Processos
 
@@ -846,9 +841,28 @@ Cria um processo no escritório da sessão
     + Body
         
             {
-                "person_customer": 11194,
-                "cost_center":
-                "legacy_code":
+                "folder": 26945,
+                "law_suit_number": "0000000-00.2018.0.00.0000"
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 46459,
+                "folder": 26945,
+                "law_suit_number": "0000000-00.2018.0.00.0000",
+                "opposing_party": null,
+                "court_district": null,
+                "instance": null,
+                "organ": null,
+                "court_division": null,
+                "person_lawyer": null,
+                "is_current_instance": false,
+                "is_active": true,
+                "legacy_code": null,
+                "office_name": <Nome do Escritório da sessão>
             }
 
 ### Listando processos [GET /lawsuit/{id}]
@@ -857,7 +871,7 @@ Caso seja informado um identificador será listado apenas o processo selecionado
 
 + Parameters
 
-    + id: 1 (number, optional) - Identificador único da pasta.
+    + id: 1 (number, optional) - Identificador único do processo.
 
 + Response 201 (application/json)
     + Headers
@@ -867,18 +881,39 @@ Caso seja informado um identificador será listado apenas o processo selecionado
     + Body
         
             {
-                "count": 1,
+                "count": 2,
                 "next": null,
                 "previous": null,
                 "results": [
                     {
-                        "id": 13604,
-                        "office": 171,
-                        "folder_number": 1,
-                        "person_customer": 11194,
-                        "cost_center": null,
-                        "create_user": 2,
-                        "legacy_code": null
+                        "id": 46460,
+                        "folder": 26945,
+                        "law_suit_number": "0000000-00.2018.0.00.0001",
+                        "opposing_party": null,
+                        "court_district": null,
+                        "instance": null,
+                        "organ": null,
+                        "court_division": null,
+                        "person_lawyer": null,
+                        "is_current_instance": false,
+                        "is_active": true,
+                        "legacy_code": null,
+                        "office_name": <Nome do Escritório da sessão>
+                    },
+                    {
+                        "id": 46459,
+                        "folder": 26945,
+                        "law_suit_number": "0000000-00.2018.0.00.0000",
+                        "opposing_party": null,
+                        "court_district": null,
+                        "instance": null,
+                        "organ": null,
+                        "court_division": null,
+                        "person_lawyer": null,
+                        "is_current_instance": false,
+                        "is_active": true,
+                        "legacy_code": null,
+                        "office_name": <Nome do Escritório da sessão>
                     }
                 ]
             }
@@ -887,13 +922,24 @@ Caso seja informado um identificador será listado apenas o processo selecionado
 ### Alterando processo [PUT /lawsuit/{id}]
 Altera o processo de acordo com o ID informado
 
-+ person_customer: `11194` (integer, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
-+ cost_center: `15` (integer) - Identificador do centro de custo
-+ legacy_code: `123456` (string) - Identificador da pasta no sistema legado
-
 + Parameters
 
-    + id: 1 (number, required) - Identificador único da pasta.
+    + id: 44460 (number, required) - Identificador único do processo.
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "folder": 26945,
+                "law_suit_number": "0000000-00.2017.0.00.0001",
+                "legacy_code": "codigo_legado"
+            }
+
 
 + Response 200 (application/json)
     + Headers
@@ -903,11 +949,19 @@ Altera o processo de acordo com o ID informado
     + Body
         
             {
-                "id": 13604,
-                "folder_number": 1,
-                "person_customer": 11194,
-                "cost_center": null,
-                "legacy_code": null
+                "id": 46460,
+                "folder": 26945,
+                "law_suit_number": "0000000-00.2017.0.00.0001",
+                "opposing_party": null,
+                "court_district": null,
+                "instance": null,
+                "organ": null,
+                "court_division": null,
+                "person_lawyer": null,
+                "is_current_instance": false,
+                "is_active": true,
+                "legacy_code": "codigo_legado",
+                "office_name": "Tiago Gomes"
             }
 
 ### Apagando processo [DELETE /lawsuit/{id}/]
@@ -915,17 +969,12 @@ Apaga o processo de acordo com o Id informado.
 
 + Parameters
 
-    + id: 1 (number, required) - Identificador único da pasta.
+    + id: 46460 (number, required) - Identificador único do processo.
 
-+ Response 201 (application/json)
++ Response 204 (application/json)
     + Headers
     
             Authorization: "Bearer <TOKEN>" 
-        
-    + Body
-    
-            {
-            }
 
 ## Data Structures
 
@@ -953,13 +1002,13 @@ Apaga o processo de acordo com o Id informado.
 + legacy_code: `123456` (string) - Identificador da pasta no sistema legado
 
 ### LawSuit
-+ folder: 15 (number, required) - Id da pasta a ser vinculada com o processo
++ folder: 26945 (number, required) - Id da pasta a ser vinculada com o processo
 + law_suit_number: `0000000-00.2018.0.00.0000` (string, required) - Número do processo
-+ court_district: 952 (number, required) - Id da comarca a ser vinculada com o processo
-+ instance: 50 (number, required) - Id da instância a ser vinculada com o processo
-+ person_lawyer: 11194 (number) - Identificador do advogado cadastrado no escritório que será vinculado ao processo
-+ organ: 0 (number) - Identificador do órgão cadastrado no escritório que será vinculado ao processo
-+ court_division: 0 (number) - Identificador da vara cadastrada no escritório que será vinculada ao processo
++ court_district: 895 (number, required) - Id da comarca a ser vinculada com o processo
++ instance: 38 (number, required) - Id da instância a ser vinculada com o processo
++ person_lawyer: 12232 (number) - Identificador do advogado cadastrado no escritório que será vinculado ao processo
++ organ: 12229 (number) - Identificador do órgão cadastrado no escritório que será vinculado ao processo
++ court_division: 16398 (number) - Identificador da vara cadastrada no escritório que será vinculada ao processo
 + is_current_instance: false (boolean)
 + opposing_party: '' (string) - Especificação da parte adversa do processo
 + legacy_code: `123456` (string) - Identificador do processo no sistema legado
