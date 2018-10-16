@@ -976,7 +976,7 @@ Apaga o processo de acordo com o Id informado.
     
             Authorization: "Bearer <TOKEN>" 
 
-# Group Tipo de Movimentação_movement
+# Group Tipo de Movimentação
 
 ## Mantendo o cadastro de Tipos de Movmentação [/type_movement//]
 
@@ -1117,6 +1117,159 @@ Buscar dados de tipos de movimentaçao cadastrados para o escritório da sessão
                 ]
             }
 
+# Group Movimentação
+
+## Mantendo o cadastro de Movmentação [/movement//]
+
++ Attributes (array[Movement])
+
+### Criar uma movimentação [POST]
+Cria uma movimentação e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[Movement])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "type_movement": 9123,
+                "folder": 26945
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 36282,
+                "type_movement": 9123,
+                "law_suit": 46459,
+                "folder": 26945,
+                "legacy_code": null
+            }
+
+### Listando as Movimentações [GET /movement/{id}/]
+Lista as movimentações cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma movimentação específica
+
++ Parameters
+
+    + id: 36282 (number, optional) - Identificador único da movimentação.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 2,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 36283,
+                        "type_movement": 9124,
+                        "law_suit": 46459,
+                        "folder": 26945,
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 36282,
+                        "type_movement": 9123,
+                        "law_suit": 46459,
+                        "folder": 26945,
+                        "legacy_code": null
+                    }
+                ]
+            }
+
+### Alterando Movimentação [PUT /movement/{id}]
+Altera o cadastro de uma movimentação específica, de acordo com o id informado.
+
++ Parameters
+
+    + id: 36282 (number, required) - Identificador único da movimentação.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "type_movement": 9123,
+                "folder": 26945,
+                "law_suit": 46459,
+                "legacy_code": "codigo_legado"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 36282,
+                "type_movement": 9123,
+                "law_suit": 46459,
+                "folder": 26945,
+                "legacy_code": "codigo_legado"
+            }
+
+### Apagando movimentação [DELETE /movement/{id}/]
+Apaga a movimentaçao de acordo com o id informado.
+
++ Parameters
+
+    + id: 36283 (number, required) - Identificador único da movimentação.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar movimentaçao [GET /movement/search={search}&legacy_code={legacy_code}&law_suit_number={law_suit_number}&type_movement_legacy_code={type_movement_legacy_code}]
+Buscar dados de movimentaçao cadastrados para o escritório da sessão.
++ Parameters
+
+    + search: `Os Avulsa` - Busca nos campos nome e legacy_code do tipo de movimentação, e nos campos legacy_code e law_suit_number do processo.
+    + `legacy_code`: codigo_legado - Busca no campo legacy_code da movimentação, pesquisa por valores exatos.
+    + law_suit_number: `0000000-00.2018.0.00.0000` - Busca no campo de número do processo vinculado à movimentação. Busca por valores exatos.
+    + `type_movement_legacy_code`: `codigo_legado` - Filtra com base no identificador do sistema de origem do processo vinculado à movimentação. Busca por valores exatos.
+    
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 36282,
+                        "type_movement": 9123,
+                        "law_suit": null,
+                        "folder": 26945,
+                        "legacy_code": "codigo_legado"
+                    }
+                ]
+            }
+
 ## Data Structures
 
 ### Authentication
@@ -1172,3 +1325,9 @@ Buscar dados de tipos de movimentaçao cadastrados para o escritório da sessão
 ### TypeMovement
 + name: OS Avulsa (required) - Nome do Tipo de Movimentação
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
+
+### Movement
++ type_movement: 9123 (number, required) - Identificador do Tipo de Movimentação
++ folder: 26945 (number, required) - Identificador da Pasta
++ law_suit: 0 (number, required) - Identificador da do Processo
++ legacy_code: `123456` (string) - Identificador da movimentação no sistema legado
