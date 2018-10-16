@@ -1314,6 +1314,175 @@ Buscar dados de tipos de serviços principais cadastrados na base de dados
             }
 
 
+# Group Tipo de Serviço
+
+## Mantendo o cadastro de Tipo de Serviço [/type_task/]
+
++ Attributes (array[TypeTask])
+
+### Criar um tipo de serviço [POST]
+Cria um tipo de serviço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[TypeTask])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "name": "Outros tipo de Serviços",
+                "type_task_main": [17]
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 3766,
+                "name": "Outros tipo de Serviços",
+                "type_task_main": [
+                    17
+                ]
+            }
+
+### Listando os tipos de serviço [GET /type_task/{id}/]
+Lista os tipos de serviço cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um tipo de serviço específico.
+
++ Parameters
+
+    + id: 3766 (number, optional) - Identificador único do tipo de serviço.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 3747,
+                        "name": "Alvará",
+                        "type_task_main": [
+                            13
+                        ]
+                    },
+                    {
+                        "id": 3748,
+                        "name": "Audiência cível - advogado e preposto",
+                        "type_task_main": [
+                            3
+                        ]
+                    },
+                    {
+                        "id": 3765,
+                        "name": "Tipo de Serviço Teste",
+                        "type_task_main": [
+                            13,
+                            1
+                        ]
+                    }
+                ]
+            }
+
+### Alterando Movimentação [PUT /type_task/{id}]
+Altera o cadastro de um tipo de serviço específico, de acordo com o id informado.
+
++ Parameters
+
+    + id: 3765 (number, required) - Identificador único do tipo de serviço.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body 
+    
+            {
+                "name": "Outros tipo de Serviços",
+                "type_task_main": [17]
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 3765,
+                "name": "Outros tipo de Serviços",
+                "type_task_main": [
+                    17
+                ]
+            }
+
+### Apagando tipo de serviço [DELETE /type_task/{id}/]
+Apaga o tipo de serviço de acordo com o id informado.
+
++ Parameters
+
+    + id: 3765 (number, required) - Identificador único do tipo de serviço.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar tipo de serviço [GET /type_task/search={search}]
+Buscar dados de tipos de serviço cadastrados para o escritório da sessão.
++ Parameters
+
+    + search: `cível` - Busca nos campos nome e legacy_code do tipo de serviço.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 3748,
+                        "name": "Audiência cível - advogado e preposto",
+                        "type_task_main": [
+                            3
+                        ]
+                    },
+                    {
+                        "id": 3749,
+                        "name": "Audiência cível - apenas advogado",
+                        "type_task_main": [
+                            1
+                        ]
+                    },
+                    {
+                        "id": 3750,
+                        "name": "Audiência cível - apenas preposto",
+                        "type_task_main": [
+                            2
+                        ]
+                    }
+                ]
+            }
+
 ## Data Structures
 
 ### Authentication
@@ -1384,3 +1553,10 @@ Buscar dados de tipos de serviços principais cadastrados na base de dados
 + name: OS Avulsa (required) - Nome do Tipo de Movimentação
 + type_task_main: [13] (array, required) - Lista com tipos de serviços principais
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
+
+### Task
++ person_asked_by: 15 (number, required) - Identificador do Solicitante cadastrado no escritório
++ final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
++ performance_place: `Belo Horizonte` (string, required) - Local de cumprimento da OS
++ movement: 15 (number, required) - Identificador da movimentação a qual a OS será vinculada
++ type_task: 15 (number, required) - Identificador do tipo de serviço vinculado à OS
