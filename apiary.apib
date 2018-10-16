@@ -976,6 +976,147 @@ Apaga o processo de acordo com o Id informado.
     
             Authorization: "Bearer <TOKEN>" 
 
+# Group Tipo de Movimentação_movement
+
+## Mantendo o cadastro de Tipos de Movmentação [/type_movement//]
+
++ Attributes (array[TypeMovement])
+
+### Criar um tipo de movimentação [POST]
+Cria uma vara e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[CourtDivision])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "name": "OS Avaulsa"
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 9123,
+                "name": "Os Avulsa",
+                "legacy_code": null
+            }
+
+### Listando os Tipos de Movimentação [GET /type_movement/{id}/]
+Lista os tipos de movimentação cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um tipo de movimentação específico
+
++ Parameters
+
+    + id: 9123 (number, optional) - Identificador único do tipo de movimentação.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 9125,
+                        "name": "Arquivar",
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 9124,
+                        "name": "Abrir Pasta",
+                        "legacy_code": null
+                    },
+                    {
+                        "id": 9123,
+                        "name": "OS Avulsa",
+                        "legacy_code": null
+                    }
+                ]
+            }
+
+### Alterando Tipo de Movimentação [PUT /type_movement/{id}]
+Altera o cadastro de um tipo de movimentação específico, de acordo com o id informado.
+
++ Parameters
+
+    + id: 9125 (number, required) - Identificador único do tipo de movimentação.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body
+
+            {
+                "name": "Arquivar e Finalizar",
+                "legacy_code": "codigo_legado"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 9125,
+                "name": "Arquivar e Finalizar",
+                "legacy_code": "codigo_legado"
+            }
+
+### Apagando tipo de movimentação [DELETE /type_movement/{id}/]
+Apaga o tipo de movimentaçao de acordo com o id informado.
+
++ Parameters
+
+    + id: 9125 (number, required) - Identificador único do tipo de movimentação.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar tipo de movimentaçao [GET /court_division/search={search}]
+Buscar dados de tipos de movimentaçao cadastrados para o escritório da sessão.
++ Parameters
+
+    + search: `Os Avulsa` - Busca nos campos name e legacy_code do tipo de movimentação.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 9123,
+                        "name": "OS Avulsa",
+                        "legacy_code": null
+                    }
+                ]
+            }
+
 ## Data Structures
 
 ### Authentication
@@ -1010,7 +1151,7 @@ Apaga o processo de acordo com o Id informado.
 + organ: 12229 (number) - Identificador do órgão cadastrado no escritório que será vinculado ao processo
 + court_division: 16398 (number) - Identificador da vara cadastrada no escritório que será vinculada ao processo
 + is_current_instance: false (boolean)
-+ opposing_party: '' (string) - Especificação da parte adversa do processo
++ opposing_party: 'parte_adversa' (string) - Especificação da parte adversa do processo
 + legacy_code: `123456` (string) - Identificador do processo no sistema legado
 
 ### Instance
@@ -1026,4 +1167,8 @@ Apaga o processo de acordo com o Id informado.
 
 ### CourtDivision
 + name: Vara Juizado Especial Civel e Criminal (required) - Nome da Vara
++ legacy_code: `123456` (string) - Identificador da vara no sistema legado
+
+### TypeMovement
++ name: OS Avulsa (required) - Nome do Tipo de Movimentação
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
