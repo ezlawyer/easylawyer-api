@@ -1270,6 +1270,50 @@ Buscar dados de movimentaçao cadastrados para o escritório da sessão.
                 ]
             }
 
+# Group Tipo de Serviços Principais
+
+## Pesquisando tipos de serviços principais disponíveis [/type_task_main/]
+Buscar dados de tipos de serviços principais cadastrados na base de dados
+
+### Buscar tipos de serviços principais [GET /type_task_main/search={search}&name={name}&is_hearing={is_hearing}]
++ Parameters
+
+    + search: audiência - Busca no campo de nome do tipo de serviço principal.
+    + name: civel - Filtra pelo campo de nome do tipo de serviço principal. Filtra por valores desconsiderando os acentos.
+    + `is_hearing`: true (boolean) - Filtra pelo campo is_hearing do tio de serviço principal.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 3,
+                        "name": "Audiência cível - advogado e preposto",
+                        "is_hearing": true
+                    },
+                    {
+                        "id": 1,
+                        "name": "Audiência cível - apenas advogado",
+                        "is_hearing": true
+                    },
+                    {
+                        "id": 2,
+                        "name": "Audiência cível - apenas preposto",
+                        "is_hearing": true
+                    }
+                ]
+            }
+
+
 ## Data Structures
 
 ### Authentication
@@ -1331,3 +1375,12 @@ Buscar dados de movimentaçao cadastrados para o escritório da sessão.
 + folder: 26945 (number, required) - Identificador da Pasta
 + law_suit: 0 (number, required) - Identificador da do Processo
 + legacy_code: `123456` (string) - Identificador da movimentação no sistema legado
+
+### TypeTaskMain
++ is_hearing: true (boolean) - Identifica se o tipo de serviço principal corresponde a uma audiência
++ name: `Audiência Cível` (string) - Nome do tipo de serviço principal
+
+### TypeTask
++ name: OS Avulsa (required) - Nome do Tipo de Movimentação
++ type_task_main: [13] (array, required) - Lista com tipos de serviços principais
++ legacy_code: `123456` (string) - Identificador da vara no sistema legado
