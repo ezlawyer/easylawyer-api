@@ -27,8 +27,7 @@ Informações necessárioas para a autenticação da API.
 
 ### Gerando o Token [POST]
 
-Para consumir os endpoints fornecidos pela Ezlawyer é necessário informar no 
-cabeçalho de cada requisição o token obtido. 
+Para consumir os endpoints fornecidos pela Ezlawyer é necessário informar no cabeçalho de cada requisição o token obtido.
 
 + Request (application/json)
 
@@ -1395,7 +1394,7 @@ Caso seja informado o identificador, busca os dados de um tipo de serviço espec
                 ]
             }
 
-### Alterando Movimentação [PUT /type_task/{id}]
+### Alterando tipo de serviço [PUT /type_task/{id}]
 Altera o cadastro de um tipo de serviço específico, de acordo com o id informado.
 
 + Parameters
@@ -1483,6 +1482,224 @@ Buscar dados de tipos de serviço cadastrados para o escritório da sessão.
                 ]
             }
 
+# Group Ordem de serviço
+
+## Mantendo o cadastro de Ordens de Serviço [/task/]
+
++ Attributes (array[TaskRead])
+
+### Criar uma ordem de serviço [POST]
+Cria uma ordem de serviço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[TaskCreate])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "final_deadline_date": "2018-10-30T12:30:00",
+                "performance_place": "Belo Horizonte",
+                "movement": 36284,
+                "type_task": 3747,
+                "description": "Descrição do serviço",
+                "task_status": "Solicitada",
+                "legacy_code": "codigo_legado"
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "final_deadline_date": "2018-10-30T12:30:00-03:00",
+                "performance_place": "Belo Horizonte",
+                "movement": 36284,
+                "type_task": 3747,
+                "description": "Descrição do serviço",
+                "task_status": "Solicitada",
+                "legacy_code": "codigo_legado",
+                "requested_date": "2018-10-17T15:07:18.612316-03:00"
+            }
+
+### Listando as ordens de serviço [GET /task/{id}/]
+Lista as ordens de serviço cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma ordem de serviço específica.
+
++ Parameters
+
+    + id: 65063 (number, optional) - Identificador único da ordem de serviço.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 65063,
+                        "legacy_code": "codigo_legado_5",
+                        "is_active": true,
+                        "task_hash": "b8e5b567-f388-4c52-8a6e-37277ce0ed7c",
+                        "task_number": 6,
+                        "delegation_date": null,
+                        "acceptance_date": null,
+                        "final_deadline_date": "2018-11-17T15:30:00-02:00",
+                        "execution_date": null,
+                        "requested_date": "2018-10-17T15:18:44.266486-03:00",
+                        "acceptance_service_date": null,
+                        "refused_service_date": null,
+                        "return_date": null,
+                        "refused_date": null,
+                        "blocked_payment_date": null,
+                        "finished_date": null,
+                        "description": "Descrição do serviço Contagem",
+                        "task_status": "Solicitada",
+                        "amount": "0.00",
+                        "billing_date": null,
+                        "receipt_date": null,
+                        "performance_place": "Ibirité",
+                        "alter_user": null,
+                        "parent": null,
+                        "movement": 36284,
+                        "person_executed_by": null,
+                        "person_distributed_by": null,
+                        "type_task": 3747
+                    }
+                ]
+            }
+
+### Alterando ordem de servico [PATCH /task/{id}]
+Altera o cadastro de uma ordem de serviço específica, de acordo com o id informado.
+
++ Parameters
+
+    + id: 65063 (number, required) - Identificador único da ordem de serviço.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body 
+    
+            {
+                "acceptance_service_date": "2018-11-17T15:35:00"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 65063,
+                "legacy_code": "codigo_legado_5",
+                "is_active": true,
+                "task_hash": "b8e5b567-f388-4c52-8a6e-37277ce0ed7c",
+                "task_number": 6,
+                "delegation_date": null,
+                "acceptance_date": null,
+                "final_deadline_date": "2018-11-17T15:30:00-02:00",
+                "execution_date": null,
+                "requested_date": "2018-10-17T15:18:44.266486-03:00",
+                "acceptance_service_date": "2018-11-17T15:35:00-02:00",
+                "refused_service_date": null,
+                "return_date": null,
+                "refused_date": null,
+                "blocked_payment_date": null,
+                "finished_date": null,
+                "description": "Descrição do serviço Contagem",
+                "task_status": "Solicitada",
+                "amount": "0.00",
+                "billing_date": null,
+                "receipt_date": null,
+                "performance_place": "Ibirité",
+                "alter_user": null,
+                "parent": null,
+                "movement": 36284,
+                "person_executed_by": null,
+                "person_distributed_by": null,
+                "type_task": 3747
+            }
+
+### Apagando ordem de serviço [DELETE /task/{id}/]
+Apaga a ordem de serviço de acordo com o id informado.
+
++ Parameters
+
+    + id: 65063 (number, required) - Identificador único da ordem de serviço.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+### Buscar ordem de serviço [GET /task/legacy_code={legacy_code}&task_number={task_number}]
+Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
++ Parameters
+
+    + `legacy_code`: `codigo_legado` - filtra os registros pelo campo legacy_code da ordem de serviço.
+    + `task_number`: 1 - filtra os registros pelo campo task_number da ordem de serviço.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+    
+            {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 65058,
+                        "legacy_code": "codigo_legado",
+                        "is_active": true,
+                        "task_hash": "02831d1e-0bf0-4ac2-8c7e-c5bc92020044",
+                        "task_number": 1,
+                        "delegation_date": null,
+                        "acceptance_date": null,
+                        "final_deadline_date": "2018-10-30T12:30:00-03:00",
+                        "execution_date": null,
+                        "requested_date": "2018-10-17T15:00:48.528417-03:00",
+                        "acceptance_service_date": null,
+                        "refused_service_date": null,
+                        "return_date": null,
+                        "refused_date": null,
+                        "blocked_payment_date": null,
+                        "finished_date": null,
+                        "description": "Descrição do serviço",
+                        "task_status": "Solicitada",
+                        "amount": "0.00",
+                        "billing_date": null,
+                        "receipt_date": null,
+                        "performance_place": "Belo Horizonte",
+                        "alter_user": null,
+                        "parent": null,
+                        "movement": 36284,
+                        "person_executed_by": null,
+                        "person_distributed_by": null,
+                        "type_task": 3747
+                    }
+                ]
+            }
+
+
 ## Data Structures
 
 ### Authentication
@@ -1554,9 +1771,38 @@ Buscar dados de tipos de serviço cadastrados para o escritório da sessão.
 + type_task_main: [13] (array, required) - Lista com tipos de serviços principais
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
 
-### Task
-+ person_asked_by: 15 (number, required) - Identificador do Solicitante cadastrado no escritório
+### TaskRead
 + final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
 + performance_place: `Belo Horizonte` (string, required) - Local de cumprimento da OS
-+ movement: 15 (number, required) - Identificador da movimentação a qual a OS será vinculada
-+ type_task: 15 (number, required) - Identificador do tipo de serviço vinculado à OS
++ movement: 36284 (number, required) - Identificador da movimentação a qual a OS será vinculada
++ type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
++ description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
++ task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
++ legacy_code: `codigo_legado` (string) - Identificador da Os no sistema legado
++ delegation_date: `2018-10-15T14:26:29.291870-03:00` (string) - Data de delegação no formato date/time (ISO8601)
++ acceptance_date: `2018-10-15T14:31:17.030168-03:00` (string) - Data de aceite pelo correspondente no formato date/time (ISO8601)
++ execution_date:  `2018-10-16T14:13:00-03:00` (string) - Data de cumprimento no formato date/time (ISO8601)
++ requested_date: `2018-10-15T14:15:46.506425-03:00` (string) - Data de solicitação no formato date/time (ISO8601)
++ acceptance_service_date: `2018-10-15T14:26:18.855924-03:00" (string) - Data de aceite pelo service no formato date/time (ISO8601)
++ refused_service_date: `` (string) - Data de recusa pelo service no formato date/time (ISO8601)
++ return_date: `2018-10-15T14:31:39.472339-03:00` (string) - Data de retorno no formato date/time (ISO8601)
++ refused_date: `` (string) - Data de recusa pelo correspondente no formato date/time (ISO8601)
++ blocked_payment_date: `` (string) - Data de glosa no formato date/time (ISO8601)
++ finished_date: `` (string) - Data de finalização da OS no formato date/time (ISO8601)
++ amount: `100.01` (string) - Valor gasto com a Ordem de Serviço
++ parent: 0 (number) - Identificador da Ordem de Serviço a qual a ordem de serviço atual está vinculada
++ person_executed_by: 0 (number) - Identificador do correspondente responsável pela execução da ordem de serviço
++ person_distributed_by: 0 (number) - Identificador do service responsável pela contratação da ordem de serviço
++ task_number: 7 (number) - Número sequêncial para as OSs do escritório,
++ is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
++ task_hash: `bca5cd69-6db3-49f8-a622-6e43b18126d4` (string) - Hash único da OS
+
+### TaskCreate
++ final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
++ performance_place: `Belo Horizonte` (string, required) - Local de cumprimento da OS
++ movement: 36284 (number, required) - Identificador da movimentação a qual a OS será vinculada
++ type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
++ description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
++ task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
++ `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
++ requested_date: "2018-10-15T14:15:46.506425-03:00" (string) - Data de solicitação no formato date/time (ISO8601)
