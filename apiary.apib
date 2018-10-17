@@ -1699,7 +1699,6 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
                 ]
             }
 
-
 ## Data Structures
 
 ### Authentication
@@ -1778,7 +1777,8 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
 + type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
 + description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
 + task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
-+ legacy_code: `codigo_legado` (string) - Identificador da Os no sistema legado
+    + Padrão: Solicitada
++ `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
 + delegation_date: `2018-10-15T14:26:29.291870-03:00` (string) - Data de delegação no formato date/time (ISO8601)
 + acceptance_date: `2018-10-15T14:31:17.030168-03:00` (string) - Data de aceite pelo correspondente no formato date/time (ISO8601)
 + execution_date:  `2018-10-16T14:13:00-03:00` (string) - Data de cumprimento no formato date/time (ISO8601)
@@ -1804,5 +1804,6 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
 + type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
 + description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
 + task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
+    + Padrão: Solicitada
 + `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
 + requested_date: "2018-10-15T14:15:46.506425-03:00" (string) - Data de solicitação no formato date/time (ISO8601)
