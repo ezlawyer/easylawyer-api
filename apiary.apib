@@ -1850,6 +1850,125 @@ Apaga a tabela de preço de acordo com o id informado.
     
             Authorization: "Bearer <TOKEN>"
 
+# Group Centro de custos
+
+## Mantendo o cadastro de centros de custos [/cost_center/]
+
++ Attributes (array[CostCenter])
+
+### Criar um centro de custos [POST]
+Cria um centro de custos e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[CostCenter])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "name": "Centro de custo"
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 112778,
+                "legacy_code": null,
+                "is_active": true,
+                "name": "Centro de custo"
+            }
+
+### Listando os centros de custos [GET /cost_center/{id}/]
+Lista os centros de custos cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um centro de custo específico.
+
++ Parameters
+
+    + id: 112778 (number, optional) - Identificador único do centro de custos.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 112778,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "name": "Centro de custo"
+                    },
+                    {
+                        "id": 112779,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "name": "Centro de custo 2"
+                    },
+                    {
+                        "id": 112780,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "name": "Centro de custo 3"
+                    }
+                ]
+            }
+
+### Alterando centro de custos [PUT /cost_center/{id}]
+Altera o cadastro de um centro de custos específico, de acordo com o id informado.
+
++ Parameters
+
+    + id: 112778 (number, required) - Identificador único do centro de custos.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body 
+    
+            {
+                "name": 226,
+                "legacy_code": "codigo_legado"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 112778,
+                "legacy_code": "codigo_legado",
+                "is_active": true,
+                "name": "Centro de custo"
+            }
+
+### Apagando centro de custos [DELETE /cost_center/{id}/]
+Apaga o centro de custos de acordo com o id informado.
+
++ Parameters
+
+    + id: 112780 (number, required) - Identificador único do centro de custos.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
 ## Data Structures
 
 ### Authentication
@@ -1969,3 +2088,8 @@ Apaga a tabela de preço de acordo com o id informado.
 + `value`: `0.00` (string, optional) - Valor no formato decimal
 + `legacy_code`: `codigo_legado` (string, optional) - Identificador da tabela de preços no sistema de origem
 + is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
+
+### CostCenter
++ name: Centro de custos (required) - Nome do centro de custos
++ `legacy_code`: codigo_legado (string) - Identificador do centro de custos no sistema de origem
++ is_active: true (boolean) - Identificador de status Ativo/Inativo do centro de custos
