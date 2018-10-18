@@ -1699,6 +1699,157 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
                 ]
             }
 
+# Group Tabelas de Preço
+
+## Mantendo o cadastro de tabelas de preço [/service_price_table/]
+
++ Attributes (array[ServicePriceTable])
+
+### Criar uma tabela de preço [POST]
+Cria uma tabela de preço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[ServicePriceTable])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "office_correspondent": 266
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 35586,
+                "legacy_code": null,
+                "is_active": true,
+                "value": "0.00",
+                "office_correspondent": 226,
+                "type_task": null,
+                "court_district": null,
+                "state": null,
+                "client": null,
+                "court_district_complement": null
+            }
+
+### Listando as tabelas de preço [GET /service_price_table/{id}/]
+Lista as tabelas de preço cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma tabela de preço específica.
+
++ Parameters
+
+    + id: 35587 (number, optional) - Identificador único da tabela de preço.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 35587,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "value": "12.15",
+                        "office_correspondent": 226,
+                        "type_task": null,
+                        "court_district": 895,
+                        "state": 12,
+                        "client": null,
+                        "court_district_complement": null
+                    },
+                    {
+                        "id": 35586,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "value": "0.00",
+                        "office_correspondent": 226,
+                        "type_task": null,
+                        "court_district": 895,
+                        "state": null,
+                        "client": null,
+                        "court_district_complement": null
+                    },
+                    {
+                        "id": 35585,
+                        "legacy_code": null,
+                        "is_active": true,
+                        "value": "0.00",
+                        "office_correspondent": 226,
+                        "type_task": null,
+                        "court_district": null,
+                        "state": null,
+                        "client": null,
+                        "court_district_complement": null
+                    }
+                ]
+            }
+
+### Alterando tabela de preço [PUT /service_price_table/{id}]
+Altera o cadastro de uma tabela de preço específica, de acordo com o id informado.
+
++ Parameters
+
+    + id: 35587 (number, required) - Identificador único do tipo de serviço.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body 
+    
+            {
+                "office_correspondent": 226,
+                "court_district": 895,
+                "state": 12,
+                "value": "12.50"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 35587,
+                "legacy_code": null,
+                "is_active": true,
+                "value": "12.50",
+                "office_correspondent": 226,
+                "type_task": null,
+                "court_district": 895,
+                "state": 12,
+                "client": null,
+                "court_district_complement": null
+            }
+
+### Apagando tabela de preço [DELETE /service_price_table/{id}/]
+Apaga a tabela de preço de acordo com o id informado.
+
++ Parameters
+
+    + id: 35587 (number, required) - Identificador único da tabela de preço.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
 ## Data Structures
 
 ### Authentication
@@ -1766,7 +1917,7 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
 + name: `Audiência Cível` (string) - Nome do tipo de serviço principal
 
 ### TypeTask
-+ name: OS Avulsa (required) - Nome do Tipo de Movimentação
++ name: Alvará (required) - Nome do Tipo de Serviço
 + type_task_main: [13] (array, required) - Lista com tipos de serviços principais
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
 
@@ -1807,3 +1958,14 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
     + Padrão: Solicitada
 + `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
 + requested_date: "2018-10-15T14:15:46.506425-03:00" (string) - Data de solicitação no formato date/time (ISO8601)
+
+### ServicePriceTable
++ `office_correspondent`: 266 (number, required) - Identificador do escritório correspondente
++ `type_task`: 0 (number, optional) - Identificador do tipo de serviço
++ `court_district`: 0 (number, optional) - Identificador da comarca
++ `court_district_complement`: 0 (number, optional) - Identificador do complemento da comarca
++ `state`: 0 (number, optional) - Identificador do estado
++ `client`: 0 (number, optional) - Identificador do cliente
++ `value`: `0.00` (string, optional) - Valor no formato decimal
++ `legacy_code`: `codigo_legado` (string, optional) - Identificador da tabela de preços no sistema de origem
++ is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
