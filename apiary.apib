@@ -2,12 +2,24 @@ FORMAT: 1A
 
 # Easy Lawyer (EZL)
 
-Ezlawyer é uma plataforma que permite gesta da contratação de 
-correspondentes jurídicos.
+O Easy Lawyer é o software de gestão de logística jurídica que permite aos usuários acesso às solicitações via web. Tudo de forma mais rápida, segura e acessível e a qualquer tempo. Ele facilita o dia a dia de quem contrata e de quem é contratado, por meio de uma ferramenta que permite ao usuário ter acesso a uma plataforma de gestão e acompanhamento das solicitações.
+
+Para mais informações sobre o sistema acesse nosso <a href="https://ezlawyer.atlassian.net/wiki/spaces/PUB/pages/101597/Manual+do+sistema">manual</a>.
+
+O objetivo desta documentação é orientar o desenvolvedor sobre como integrar com a API do EZL, descrevendo as funcionalidades, os métodos a serem utilizados e listando informações a serem enviadas e recebidas. Para facilitar, são disponibilizados códigos prontos de exemplos em diversas linguagens de programação.
+
+O mecanismo de integração com o EZL é simples, são necessários apenas conhecimentos intermediários em linguagem de programação para Web, requisições HTTP/HTTPS e manipulação de arquivos JSON.
+
+Nesse manual você encontrará a referência sobre todas as operações disponíveis na API REST do EZL. Estas operações devem ser executadas utilizando sua chave específica (client_id e client_secret) nos respectivos endpoints.
 
 # Group Fluxo de integração
 
-Descrever o fluxo necessário para integrar uma Task
+![name](https://api.media.atlassian.com/file/811983bd-7793-4dc3-b2f5-b418dea9cb4d/image?mode=full-fit&client=5fc64c67-aedd-4558-b2b4-65466b28534a&token=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1ZmM2NGM2Ny1hZWRkLTQ1NTgtYjJiNC02NTQ2NmIyODUzNGEiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOjgxMTk4M2JkLTc3OTMtNGRjMy1iMmY1LWI0MThkZWE5Y2I0ZCI6WyJyZWFkIl19LCJleHAiOjE1NDA0NzI4MzMsIm5iZiI6MTU0MDQ2OTQ3M30.l7BNq_TMP3ogjSBHYwkeT3jAFhK99-IN9qU2dilzrdo)
+
+Para importar uma OS, primeiro devem ser importadas todas as suas dependências e as tabelas auxiliares.
+A OS pertence à uma movimentação, que pertence a um processo que, por sua vez, pertence à uma pasta. Portanto, deve ser importada a pasta, o processo, a movimentação e, por último, a OS.
+
+Quanto às tabelas auxiliares, elas também devem ser importadas de acordo com o nível de dependência. Por exemplo, para a importação da pasta é necessário que o cliente já tenha sido importado, uma vez que o cliente é um campo obrigatório na pasta.
 
 # Status das transações
 
@@ -19,7 +31,7 @@ Descrever os status retornados na API
 
 # Group Autenticação
 
-Informações necessárioas para a autenticação da API.
+Informações necessárias para a autenticação da API.
 
 ## Obtendo o Token de autenticação [/oauth2/token/]
 
@@ -1491,6 +1503,8 @@ Buscar dados de tipos de serviço cadastrados para o escritório da sessão.
 ### Criar uma ordem de serviço [POST]
 Cria uma ordem de serviço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
 
+Só é possível importar OS nos seguintes status: *Solicitada* ou *Aceita pelo Service*.
+
 + Request (application/json)
 
     + Attributes (array[TaskCreate])
@@ -1526,7 +1540,7 @@ Cria uma ordem de serviço e faz o seu vínculo no escritório da sessão de aco
             }
 
 ### Listando as ordens de serviço [GET /task/{id}/]
-Lista as ordens de serviço cadastrados para o escritório da sessão.
+Lista as ordens de serviço cadastradas para o escritório da sessão.
 Caso seja informado o identificador, busca os dados de uma ordem de serviço específica.
 
 + Parameters
@@ -2073,7 +2087,7 @@ Apaga o centro de custos de acordo com o id informado.
 + movement: 36284 (number, required) - Identificador da movimentação a qual a OS será vinculada
 + type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
 + description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
-+ task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
++ task_status: Solicitada, Aceita pelo Service (enum) - Status da OS
     + Padrão: Solicitada
 + `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
 + requested_date: "2018-10-15T14:15:46.506425-03:00" (string) - Data de solicitação no formato date/time (ISO8601)
