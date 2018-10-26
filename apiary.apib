@@ -27,10 +27,14 @@ Conforme o andamento do serviço o status da OS é atualizado. Nessa tabela é p
 
 # Interpretrando status retornados pela API
 
-| Retorno | Descrição                                                                                    |
-| ------- | -------------------------------------------------------------------------------------------- |
-| 201     |                                                                                              |
-| 204     |                                                                                              |
+| Retorno | Descrição                                                                                       |
+| ------- | ----------------------------------------------------------------------------------------------- |
+| 200     | GET - A requisição retornou os dados solicitados sem erro                                       |
+| 201     | POST - Os dados enviados foram processados corretamente                                         |
+| 204     | DELETE - Os dados foram apagados com sucesso                                                    |
+| 400     | Os dados enviados estão incorretos. Verificar detalhamento do erro no Json de retorno           |
+| 401     | As credenciais de autenticação não foram fornecidas ou não são válidas para a requisição atual  |
+| 405     | Método (GET, POST, PUT, PATCH ou DELETE) não permitido para a URL solicitada                    |
 
 # Glossário
 
