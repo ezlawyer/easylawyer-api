@@ -50,8 +50,8 @@ Informações necessárias para a autenticação da API.
 
 ### Gerando o Token [POST]
 
-Para consumir os endpoints fornecidos pela API do EZL é necessário informar no cabeçalho de cada requisição o token obtido.
-
+Para realizar as demais requisições disponibilizadas por nossa API é necessário informar o token de autenticação no cabeçalho da requisição HTTP. Este token é obtido por uma requisição POST no endpoint /oauth2/token/, passando o client_id e o client_secret que podem ser obtidos junto à nossa equipe de suporte.
+ri
 + Request (application/json)
 
     + Attributes (array[Authentication])
@@ -79,7 +79,7 @@ Para consumir os endpoints fornecidos pela API do EZL é necessário informar no
 # Group Comarcas
 
 ## Pesquisando comarcas disponíveis [/court_district/]
-Buscar dados de comarcas cadastradas na base de dados
+Buscar dados de comarcas cadastradas na base de dados.
 
 ### Buscar comarcas [GET /court_ditrict/search={search}&name={name}&state={state}]
 + Parameters
@@ -158,8 +158,8 @@ Cria uma instância e faz o seu vínculo no escritório da sessão de acordo com
             }
 
 ### Listando instâncias [GET /instance/{id}/]
-Lista as instâncias cadastradas para o escritório da Sessão.
-Caso seja informado o identificador, busca os dados de uma instância específica
+Lista as instâncias cadastradas para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma instância específica.
 
 + Parameters
 
@@ -197,7 +197,7 @@ Caso seja informado o identificador, busca os dados de uma instância específic
             }
 
 ### Alterando instância [PUT /instance/{id}/]
-Altera o cadastro de uma instância específica, de acordo com o id informado.
+Altera o cadastro de uma instância específica de acordo com o id informado.
 
 + Parameters
 
@@ -240,7 +240,7 @@ Apaga a instância de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar instancias [GET /instance/search={search}&name={name}&legacy_code={legacy_code}]
-Buscar dados de instâncias cadastradas na base de dados
+Busca os dados de instâncias cadastradas na base de dados.
 + Parameters
 
     + search: judicial - Busca nos campos de nome e legacy_code da instância.
@@ -306,8 +306,8 @@ Cria um órgão e faz o seu vínculo no escritório da sessão de acordo com os 
             }
 
 ### Listando órgãos [GET /organ/{id}/]
-Lista os órgãos cadastrados para o escritório da Sessão.
-Caso seja informado o identificador, busca os dados de um órgão específico
+Lista os órgãos cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um órgão específico.
 
 + Parameters
 
@@ -357,7 +357,7 @@ Caso seja informado o identificador, busca os dados de um órgão específico
             }
 
 ### Alterando órgão [PUT /organ/{id}/]
-Altera o cadastro de um órgão específico, de acordo com o id informado.
+Altera o cadastro de um órgão específico de acordo com o id informado.
 
 + Parameters
 
@@ -465,8 +465,8 @@ Cria uma vara e faz o seu vínculo no escritório da sessão de acordo com os da
             }
 
 ### Listando as varas [GET /court_division/{id}/]
-Lista as varas cadastrados para o escritório da sessão.
-Caso seja informado o identificador, busca os dados de uma vara específica
+Lista as varas cadastradas para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma vara específica.
 
 + Parameters
 
@@ -504,7 +504,7 @@ Caso seja informado o identificador, busca os dados de uma vara específica
             }
 
 ### Alterando vara [PUT /court_division/{id}/]
-Altera o cadastro de uma vara específica, de acordo com o id informado.
+Altera o cadastro de uma vara específica de acordo com o id informado.
 
 + Parameters
 
@@ -547,7 +547,8 @@ Apaga a vara de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar vara [GET /court_division/search={search}]
-Buscar dados de varas cadastrados na base de dados.
+Busca os dados das varas cadastrados na base de dados.
+
 + Parameters
 
     + search: codigo_legado - Busca nos campos name e legacy_code da vara.
@@ -580,7 +581,7 @@ Buscar dados de varas cadastrados na base de dados.
 + Attributes (array[Person])
 
 ### Criar uma pessoa [POST]
-Cria uma pessoa e faz o seu vínculo no escritório da sessão, de acordo com os dados informados.
+Cria uma pessoa e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
     
 + Request (application/json)
 
@@ -615,8 +616,8 @@ Cria uma pessoa e faz o seu vínculo no escritório da sessão, de acordo com os
             }
 
 ### Listando pessoas [GET /person/{id}/]
-Lista as pessoas cadastradas para o escritório da Sessão.
-Caso seja informado o identificador, busca os dados de uma pessoa específica
+Lista as pessoas cadastradas para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma pessoa específica.
 
 + Parameters
 
@@ -675,7 +676,7 @@ Caso seja informado o identificador, busca os dados de uma pessoa específica
             }
 
 ### Alterando pessoas [PUT /person/{id}/]
-Altera o cadastro de uma pessoa específica, de acordo com o id informado.
+Altera o cadastro de uma pessoa específica de acordo com o id informado.
 
 + Parameters
 
@@ -731,7 +732,7 @@ Apaga a pessoa de acordo com o id informado.
 + Attributes (array[Folder])
 
 ### Criar uma pasta [POST]
-Cria uma pasta vinculada ao escritório da sessão de acordo com os dados informados
+Cria uma pasta vinculada ao escritório da sessão de acordo com os dados informados.
 
 + Request (application/json)
     
@@ -760,8 +761,8 @@ Cria uma pasta vinculada ao escritório da sessão de acordo com os dados inform
             }
 
 ### Listando pastas [GET /folder/{id}]
-Listar Pastas cadastradas para o escritíorio da sessão. 
-Caso seja informado um identificador será listado apenas a pasta selecionado.
+Lista as pastas cadastradas para o escritório da sessão. 
+Caso seja informado um identificador será listada apenas a pasta selecionada.
 
 + Parameters
 
@@ -798,7 +799,7 @@ Caso seja informado um identificador será listado apenas a pasta selecionado.
         
 
 ### Alterando pasta [PUT /folder/{id}/]
-Alterar a pasta de acordo com o ID informado
+Altera a pasta de acordo com o id  informado.
 
 + Parameters
 
@@ -834,7 +835,7 @@ Alterar a pasta de acordo com o ID informado
             }
 
 ### Apagando pasta [DELETE /folder/{id}/]
-Apaga a pasta de acordo com o Id informado.
+Apaga a pasta de acordo com o id informado.
 
 + Parameters
 
@@ -852,7 +853,7 @@ Apaga a pasta de acordo com o Id informado.
 + Attributes (array[LawSuit])
 
 ### Criar um processo [POST]
-Cria um processo no escritório da sessão
+Cria um processo no escritório da sessão.
 
 + Request (application/json)
     
@@ -888,7 +889,7 @@ Cria um processo no escritório da sessão
             }
 
 ### Listando processos [GET /lawsuit/{id}]
-Lista Processos cadastradas para o escritíorio da sessão. 
+Lista os processos cadastrados para o escritório da sessão. 
 Caso seja informado um identificador será listado apenas o processo selecionado.
 
 + Parameters
@@ -942,7 +943,7 @@ Caso seja informado um identificador será listado apenas o processo selecionado
         
 
 ### Alterando processo [PUT /lawsuit/{id}/]
-Altera o processo de acordo com o ID informado
+Altera o processo de acordo com o id informado.
 
 + Parameters
 
@@ -987,7 +988,7 @@ Altera o processo de acordo com o ID informado
             }
 
 ### Apagando processo [DELETE /lawsuit/{id}/]
-Apaga o processo de acordo com o Id informado.
+Apaga o processo de acordo com o id informado.
 
 + Parameters
 
@@ -1005,7 +1006,7 @@ Apaga o processo de acordo com o Id informado.
 + Attributes (array[TypeMovement])
 
 ### Criar um tipo de movimentação [POST]
-Cria uma vara e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+Cria um tipo de movimentação e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
 
 + Request (application/json)
 
@@ -1032,7 +1033,7 @@ Cria uma vara e faz o seu vínculo no escritório da sessão de acordo com os da
 
 ### Listando os Tipos de Movimentação [GET /type_movement/{id}/]
 Lista os tipos de movimentação cadastrados para o escritório da sessão.
-Caso seja informado o identificador, busca os dados de um tipo de movimentação específico
+Caso seja informado o identificador, busca os dados do tipo de movimentação específico.
 
 + Parameters
 
@@ -1070,7 +1071,7 @@ Caso seja informado o identificador, busca os dados de um tipo de movimentação
             }
 
 ### Alterando Tipo de Movimentação [PUT /type_movement/{id}/]
-Altera o cadastro de um tipo de movimentação específico, de acordo com o id informado.
+Altera o cadastro do tipo de movimentação específico de acordo com o id informado.
 
 + Parameters
 
@@ -1113,7 +1114,8 @@ Apaga o tipo de movimentaçao de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar tipo de movimentaçao [GET /court_division/search={search}]
-Buscar dados de tipos de movimentaçao cadastrados para o escritório da sessão.
+Busca os dados dos tipos de movimentaçao cadastrados para o escritório da sessão.
+
 + Parameters
 
     + search: `Os Avulsa` - Busca nos campos name e legacy_code do tipo de movimentação.
@@ -1175,8 +1177,8 @@ Cria uma movimentação e faz o seu vínculo no escritório da sessão de acordo
             }
 
 ### Listando as Movimentações [GET /movement/{id}/]
-Lista as movimentações cadastrados para o escritório da sessão.
-Caso seja informado o identificador, busca os dados de uma movimentação específica
+Lista as movimentações cadastradas para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de uma movimentação específica.
 
 + Parameters
 
@@ -1213,7 +1215,7 @@ Caso seja informado o identificador, busca os dados de uma movimentação espec�
             }
 
 ### Alterando Movimentação [PUT /movement/{id}/]
-Altera o cadastro de uma movimentação específica, de acordo com o id informado.
+Altera o cadastro de uma movimentação específica de acordo com o id informado.
 
 + Parameters
 
@@ -1260,7 +1262,8 @@ Apaga a movimentaçao de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar movimentaçao [GET /movement/search={search}&legacy_code={legacy_code}&law_suit_number={law_suit_number}&type_movement_legacy_code={type_movement_legacy_code}]
-Buscar dados de movimentaçao cadastrados para o escritório da sessão.
+Busca os dados de movimentaçao cadastrados para o escritório da sessão.
+
 + Parameters
 
     + search: `Os Avulsa` - Busca nos campos nome e legacy_code do tipo de movimentação, e nos campos legacy_code e law_suit_number do processo.
@@ -1295,14 +1298,14 @@ Buscar dados de movimentaçao cadastrados para o escritório da sessão.
 # Group Tipo de Serviços Principais
 
 ## Pesquisando tipos de serviços principais disponíveis [/type_task_main/]
-Buscar dados de tipos de serviços principais cadastrados na base de dados
+Busca os dados dos tipos de serviços principais cadastrados para o escritório da sessão.
 
 ### Buscar tipos de serviços principais [GET /type_task_main/search={search}&name={name}&is_hearing={is_hearing}]
 + Parameters
 
     + search: audiência - Busca no campo de nome do tipo de serviço principal.
     + name: civel - Filtra pelo campo de nome do tipo de serviço principal. Filtra por valores desconsiderando os acentos.
-    + `is_hearing`: true (boolean) - Filtra pelo campo is_hearing do tio de serviço principal.
+    + `is_hearing`: true (boolean) - Filtra pelo campo is_hearing do tipo de serviço principal.
 
 + Response 201 (application/json)
 
@@ -1418,7 +1421,7 @@ Caso seja informado o identificador, busca os dados de um tipo de serviço espec
             }
 
 ### Alterando tipo de serviço [PUT /type_task/{id}/]
-Altera o cadastro de um tipo de serviço específico, de acordo com o id informado.
+Altera o cadastro de um tipo de serviço específico de acordo com o id informado.
 
 + Parameters
 
@@ -1463,7 +1466,8 @@ Apaga o tipo de serviço de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar tipo de serviço [GET /type_task/search={search}]
-Buscar dados de tipos de serviço cadastrados para o escritório da sessão.
+Busca os dados dos tipos de serviço cadastrados para o escritório da sessão.
+
 + Parameters
 
     + search: `cível` - Busca nos campos nome e legacy_code do tipo de serviço.
@@ -1605,7 +1609,7 @@ Caso seja informado o identificador, busca os dados de uma ordem de serviço esp
             }
 
 ### Alterando ordem de servico [PATCH /task/{id}/]
-Altera o cadastro de uma ordem de serviço específica, de acordo com o id informado.
+Altera o cadastro de uma ordem de serviço específica de acordo com o id informado.
 
 + Parameters
 
@@ -1672,7 +1676,8 @@ Apaga a ordem de serviço de acordo com o id informado.
             Authorization: "Bearer <TOKEN>"
 
 ### Buscar ordem de serviço [GET /task/legacy_code={legacy_code}&task_number={task_number}]
-Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
+Busca os dados das ordens de serviço cadastradas para o escritório da sessão.
+
 + Parameters
 
     + `legacy_code`: `codigo_legado` - filtra os registros pelo campo legacy_code da ordem de serviço.
@@ -1731,7 +1736,7 @@ Buscar dados de ordens de serviço cadastradas para o escritório da sessão.
 + Attributes (array[ServicePriceTable])
 
 ### Criar uma tabela de preço [POST]
-Cria uma tabela de preço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+Cria um preço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
 
 + Request (application/json)
 
@@ -1764,8 +1769,8 @@ Cria uma tabela de preço e faz o seu vínculo no escritório da sessão de acor
             }
 
 ### Listando as tabelas de preço [GET /service_price_table/{id}/]
-Lista as tabelas de preço cadastrados para o escritório da sessão.
-Caso seja informado o identificador, busca os dados de uma tabela de preço específica.
+Lista o preço cadastrado para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um de preço específico.
 
 + Parameters
 
@@ -1824,7 +1829,7 @@ Caso seja informado o identificador, busca os dados de uma tabela de preço espe
             }
 
 ### Alterando tabela de preço [PUT /service_price_table/{id}/]
-Altera o cadastro de uma tabela de preço específica, de acordo com o id informado.
+Altera o cadastro de um preço específico de acordo com o id informado.
 
 + Parameters
 
@@ -1864,7 +1869,7 @@ Altera o cadastro de uma tabela de preço específica, de acordo com o id inform
             }
 
 ### Apagando tabela de preço [DELETE /service_price_table/{id}/]
-Apaga a tabela de preço de acordo com o id informado.
+Apaga o preço de acordo com o id informado.
 
 + Parameters
 
@@ -1882,7 +1887,7 @@ Apaga a tabela de preço de acordo com o id informado.
 + Attributes (array[CostCenter])
 
 ### Criar um centro de custos [POST]
-Cria um centro de custos e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+Cria um centro de custo e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
 
 + Request (application/json)
 
@@ -1951,7 +1956,7 @@ Caso seja informado o identificador, busca os dados de um centro de custo espec�
             }
 
 ### Alterando centro de custos [PUT /cost_center/{id}/]
-Altera o cadastro de um centro de custos específico, de acordo com o id informado.
+Altera o cadastro de um centro de custos específico de acordo com o id informado.
 
 + Parameters
 
@@ -1983,7 +1988,7 @@ Altera o cadastro de um centro de custos específico, de acordo com o id informa
             }
 
 ### Apagando centro de custos [DELETE /cost_center/{id}/]
-Apaga o centro de custos de acordo com o id informado.
+Apaga o centro de custo de acordo com o id informado.
 
 + Parameters
 
@@ -2009,10 +2014,10 @@ Apaga o centro de custos de acordo com o id informado.
 
     + Padrão: J
         
-+ is_lawyer: false (boolean) - Esta opção define se a pessoa é um advogado
-+ is_costumer: false (boolean) - Esta opção define se a pessoa é um cliente
-+ is_supplier: false (boolean) - Esta opção define se a pessoa é um fornecedor
-+ is_active: true (boolean) - Esta opção define se a pessoa está ativa
++ is_lawyer: false (boolean) - Esta opção indica se a pessoa é um advogado
++ is_costumer: false (boolean) - Esta opção indica se a pessoa é um cliente
++ is_supplier: false (boolean) - Esta opção indica se a pessoa é um fornecedor
++ is_active: true (boolean) - Esta opção indica se a pessoa está ativa
 
 ### Folder
 + person_customer: `11384` (number, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
@@ -2032,14 +2037,14 @@ Apaga o centro de custos de acordo com o id informado.
 + legacy_code: `123456` (string) - Identificador do processo no sistema legado
 
 ### Instance
-+ name: `1 Instância Judicial` (string, required) - Nome da Instância
++ name: `1 Instância Judicial` (string, required) - Nome da instância
 + legacy_code: `123456` (string) - Identificador da instância no sistema legado
 
 ### Organ
-+ legal_name: Fórum Belo Horizonte (required) - Nome do Órgão
-+ name: Fórum Belo Horizonte - Nome ou Nome Fantasia do Órgão
++ legal_name: Fórum Belo Horizonte (required) - Nome do órgão
++ name: Fórum Belo Horizonte - Nome ou Nome fantasia do órgão
 + cpf_cnpj: 00000000000 - CPF ou CNPJ (devem ser válidos, caso seja enviado)
-+ court_district: 895 (number, required) - Id da comarca a ser vinculada com o orgão
++ court_district: 895 (number, required) - Id da comarca a ser vinculada com o órgão
 + legacy_code: `123456` (string) - Identificador do órgão no sistema legado
 
 ### CourtDivision
@@ -2047,13 +2052,13 @@ Apaga o centro de custos de acordo com o id informado.
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
 
 ### TypeMovement
-+ name: OS Avulsa (required) - Nome do Tipo de Movimentação
++ name: OS Avulsa (required) - Nome do tipo de movimentação
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
 
 ### Movement
-+ type_movement: 9123 (number, required) - Identificador do Tipo de Movimentação
-+ folder: 26945 (number, required) - Identificador da Pasta
-+ law_suit: 0 (number, required) - Identificador da do Processo
++ type_movement: 9123 (number, required) - Identificador do tipo de movimentação
++ folder: 26945 (number, required) - Identificador da pasta
++ law_suit: 0 (number, required) - Identificador da do processo
 + legacy_code: `123456` (string) - Identificador da movimentação no sistema legado
 
 ### TypeTaskMain
@@ -2073,7 +2078,7 @@ Apaga o centro de custos de acordo com o id informado.
 + description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
 + task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
     + Padrão: Solicitada
-+ `legacy_code`: `codigo_legado` (string) - Identificador da Os no sistema legado
++ `legacy_code`: `codigo_legado` (string) - Identificador da OS no sistema legado
 + delegation_date: `2018-10-15T14:26:29.291870-03:00` (string) - Data de delegação no formato date/time (ISO8601)
 + acceptance_date: `2018-10-15T14:31:17.030168-03:00` (string) - Data de aceite pelo correspondente no formato date/time (ISO8601)
 + execution_date:  `2018-10-16T14:13:00-03:00` (string) - Data de cumprimento no formato date/time (ISO8601)
@@ -2088,7 +2093,7 @@ Apaga o centro de custos de acordo com o id informado.
 + parent: 0 (number) - Identificador da Ordem de Serviço a qual a ordem de serviço atual está vinculada
 + person_executed_by: 0 (number) - Identificador do correspondente responsável pela execução da ordem de serviço
 + person_distributed_by: 0 (number) - Identificador do service responsável pela contratação da ordem de serviço
-+ task_number: 7 (number) - Número sequêncial para as OSs do escritório,
++ task_number: 7 (number) - Número sequêncial para as OSs do escritório
 + is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
 + task_hash: `bca5cd69-6db3-49f8-a622-6e43b18126d4` (string) - Hash único da OS
 
