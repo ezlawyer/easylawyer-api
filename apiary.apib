@@ -21,7 +21,7 @@ A OS pertence à uma movimentação, que pertence a um processo que, por sua vez
 
 Quanto às tabelas auxiliares, elas também devem ser importadas de acordo com o nível de dependência. Por exemplo, para a importação da pasta é necessário que o cliente já tenha sido importado, uma vez que o cliente é um campo obrigatório na pasta.
 
-# Status das transações
+# Group Status das transações
 
 Conforme o andamento do serviço o status da OS é atualizado. Nessa tabela é possível verificar o andamento dos <a href="https://ezlawyer.atlassian.net/wiki/spaces/PUB/pages/101684/Dashboard#Dashboard-Tabeladetransi%C3%A7%C3%A3odosstatus">status</a>.
 
@@ -51,7 +51,7 @@ Informações necessárias para a autenticação da API.
 ### Gerando o Token [POST]
 
 Para realizar as demais requisições disponibilizadas por nossa API é necessário informar o token de autenticação no cabeçalho da requisição HTTP. Este token é obtido por uma requisição POST no endpoint /oauth2/token/, passando o client_id e o client_secret que podem ser obtidos junto à nossa equipe de suporte.
-ri
+
 + Request (application/json)
 
     + Attributes (array[Authentication])
@@ -1544,6 +1544,7 @@ Só é possível importar OS nos seguintes status: *Solicitada* ou *Aceita pelo 
     + Body
     
             {
+                "id": 156695,
                 "final_deadline_date": "2018-10-30T12:30:00-03:00",
                 "performance_place": "Belo Horizonte",
                 "movement": 36284,
@@ -1729,6 +1730,265 @@ Busca os dados das ordens de serviço cadastradas para o escritório da sessão.
                 ]
             }
 
+# Group ECM Ordens de Serviço
+
+## Matnendo o cadastro de ECM [/ecm_task/]
+Permite criar, listar e apagar um arquivo que servirá de anexo para uma OS existente no escritório da sessão.
+
+Os anexos devem ser enviados utilizando o método HTTP form data.
+
+O arquivo será automaticamente vinculado às OSs (pai e filho) realacionadas à OS indicada, caso elas existam. 
+
+As OSs vinculadas poderão ser consultadas no resultado, dentro da lista em "tasks". Caso a OS indicada não possua OS vinculada, essa lista retornará um valor vazio
+
+- Não é possível alterar um arquivo enviado.
+- Não é póssível excluir um arquivo que possua legacy_codde
+
+### Criar um anexo para a OS [POST]
+Cria um arquivo como anexo a uma OS indicada, desde que esta esteja vinculada ao escritório da sessão.
+
++ Request
+    
+    + Attributes (array[ECMTask])
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+            Content-Type: "application/x-www-form-urlencoded"
+    
+    + Body
+    
+            --{boundary value}
+            Content-Disposition: form-data; name='file'; filename='file.txt'
+            Content-Type: text/plain (according to the type of the uploaded file)
+            
+            {file content}
+            --{boundary value}
+            Content-Disposition: form-data; name="exhibition_name"
+            
+            descrição do arquivo
+            --{boundary value}
+            Content-Disposition: form-data; name="task"
+            
+            22776
+            --{boundary value}--
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 9999,
+                "legacy_code": null,
+                "path": "<Caminho para o arquivo no S3>",
+                "size": 10584,
+                "exhibition_name": "logo postman",
+                "task": 22776,
+                "tasks": [
+                    22777,
+                    22776
+                ]
+            }
+
+### Listando os ECM [GET /ecm_task/{id}/]
+Lista os arquivos cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um arquivo específico.
+
++ Parameters
+
+    + id: 9999 (number, optional) - Identificador único do arquivo.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 92591,
+                        "legacy_code": null,
+                        "system_prefix": null,
+                        "path": "<PATH_TO_S3>",
+                        "size": null,
+                        "exhibition_name": "descricao do arquivo",
+                        "task": 22723,
+                        "tasks": []
+                    },
+                    {
+                        "id": 94665,
+                        "legacy_code": null,
+                        "system_prefix": null,
+                        "path": "<PATH_TO_S3>",
+                        "size": null,
+                        "exhibition_name": "descricao do arquivo",
+                        "task": 22776,
+                        "tasks": []
+                    },
+                    {
+                        "id": 94716,
+                        "legacy_code": null,
+                        "system_prefix": null,
+                        "path": "<PATH_TO_S3>",
+                        "size": null,
+                        "exhibition_name": "descricao do arquivo",
+                        "task": 22294,
+                        "tasks": [
+                            22294,
+                            118634,
+                            130882,
+                            77453,
+                            125694
+                        ]
+                    }
+                ]
+            }
+
+### Apagando arquivo [DELETE /ecm_task/{id}/]
+Apaga o arquivo de acordo com o id informado.
+
++ Parameters
+
+    + id: 9999 (number, required) - Identificador único do arquivo.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+# Group Tipos de preços
+
+## Mantendo o cadastro de tipos de preços [/policy_price/]
+
++ Attributes (array[PolicyPrice])
+
+### Criar um tipo de preços [POST]
+Cria um tipo de preço e faz o seu vínculo no escritório da sessão de acordo com os dados informados.
+
++ Request (application/json)
+
+    + Attributes (array[PolicyPrice])
+    
+    + Headers
+            
+            Authorization: "Bearer <TOKEN>"
+    + Body
+    
+            {
+                "name": "Padrão Pós-pago",
+                "category": "DEFAULT",
+                "billing_moment": "POST_PAID"
+            }
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 9999,
+                "is_active": true,
+                "name": "Padrão Pós-pago",
+                "category": "DEFAULT",
+                "billing_moment": "POST_PAID"
+            }
+
+### Listando os tipos de preços [GET /policy_price/{id}/]
+Lista os tipos de preços cadastrados para o escritório da sessão.
+Caso seja informado o identificador, busca os dados de um tipo de preço específico.
+
++ Parameters
+
+    + id: 9999 (number, optional) - Identificador único do tipo de preços.
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+        
+    + Body
+            
+            {
+                "count": 3,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 116,
+                        "is_active": true,
+                        "name": "Padrão pós-pago",
+                        "category": "DEFAULT",
+                        "billing_moment": "POST_PAID"
+                    },
+                    {
+                        "id": 1817,
+                        "is_active": true,
+                        "name": "Padrão Pós-pago",
+                        "category": "DEFAULT",
+                        "billing_moment": "POST_PAID"
+                    },
+                    {
+                        "id": 115,
+                        "is_active": true,
+                        "name": "Padrão pré-pago",
+                        "category": "DEFAULT",
+                        "billing_moment": "PRE_PAID"
+                    }
+                ]
+            }
+
+### Alterando tipo de preços [PUT /policy_price/{id}/]
+Altera o cadastro de um tipo de preços específico de acordo com o id informado.
+
++ Parameters
+
+    + id: 9999 (number, required) - Identificador único do tipo de preços.
+    
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
+    + Body 
+    
+            {
+                "name": "TESTE Alteração",
+                "category": "DEFAULT",
+                "billing_moment": "POST_PAID"
+            }
+            
+
++ Response 201 (application/json)
+    
+    + Body
+    
+            {
+                "id": 9999,
+                "is_active": true,
+                "name": "TESTE Alteração",
+                "category": "DEFAULT",
+                "billing_moment": "POST_PAID"
+            }
+
+### Apagando tipo de preço [DELETE /policy_price/{id}/]
+Apaga o tipo de preço de acordo com o id informado.
+
++ Parameters
+
+    + id: 9999 (number, required) - Identificador único do tipo de preço.
+
++ Response 204 (application/json)
+    + Headers
+    
+            Authorization: "Bearer <TOKEN>"
+
 # Group Tabelas de Preço
 
 ## Mantendo o cadastro de tabelas de preço [/service_price_table/]
@@ -1748,7 +2008,8 @@ Cria um preço e faz o seu vínculo no escritório da sessão de acordo com os d
     + Body
     
             {
-                "office_correspondent": 266
+                "office_correspondent": 266,
+                "policy_price": 116
             }
 
 + Response 201 (application/json)
@@ -1756,16 +2017,20 @@ Cria um preço e faz o seu vínculo no escritório da sessão de acordo com os d
     + Body
     
             {
-                "id": 35586,
+                "id": 176329,
                 "legacy_code": null,
-                "is_active": true,
+                "system_prefix": null,
+                "is_active": false,
                 "value": "0.00",
-                "office_correspondent": 226,
+                "office_correspondent": 266,
+                "office_network": null,
                 "type_task": null,
                 "court_district": null,
                 "state": null,
                 "client": null,
-                "court_district_complement": null
+                "court_district_complement": null,
+                "city": null,
+                "policy_price": 116
             }
 
 ### Listando as tabelas de preço [GET /service_price_table/{id}/]
@@ -1937,18 +2202,21 @@ Caso seja informado o identificador, busca os dados de um centro de custo espec�
                     {
                         "id": 112778,
                         "legacy_code": null,
+                        "system_prefix": null,
                         "is_active": true,
                         "name": "Centro de custo"
                     },
                     {
                         "id": 112779,
                         "legacy_code": null,
+                        "system_prefix": null,
                         "is_active": true,
                         "name": "Centro de custo 2"
                     },
                     {
                         "id": 112780,
                         "legacy_code": null,
+                        "system_prefix": null,
                         "is_active": true,
                         "name": "Centro de custo 3"
                     }
@@ -1983,6 +2251,7 @@ Altera o cadastro de um centro de custos específico de acordo com o id informad
             {
                 "id": 112778,
                 "legacy_code": "codigo_legado",
+                "system_prefix": null,
                 "is_active": true,
                 "name": "Centro de custo"
             }
@@ -2018,6 +2287,7 @@ Apaga o centro de custo de acordo com o id informado.
 + is_costumer: false (boolean) - Esta opção indica se a pessoa é um cliente
 + is_supplier: false (boolean) - Esta opção indica se a pessoa é um fornecedor
 + is_active: true (boolean) - Esta opção indica se a pessoa está ativa
++ legacy_code: `codigo_legado` (string, optional) - Identificador da pessoa no sistema de origem
 
 ### Folder
 + person_customer: `11384` (number, required) - Identificador do cliente cadastrado no escritório que será vinculado à pasta
@@ -2071,31 +2341,36 @@ Apaga o centro de custo de acordo com o id informado.
 + legacy_code: `123456` (string) - Identificador da vara no sistema legado
 
 ### TaskRead
-+ final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
-+ performance_place: `Belo Horizonte` (string, required) - Local de cumprimento da OS
++ id: 999999 (number, required) - Identificador único da OS no EZL
 + movement: 36284 (number, required) - Identificador da movimentação a qual a OS será vinculada
++ performance_place: `Belo Horizonte` (string, required) - Local de cumprimento da OS
++ final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
++ task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum, required) - Status da OS
+    + Padrão: Solicitada
 + type_task: 3747 (number, required) - Identificador do tipo de serviço vinculado à OS
 + description: `Descrição do serviço` (string) - Descrição do serviço a ser realizado
-+ task_status: Solicitada, Aceita pelo Service, Em Aberto, A Cumprir, Cumprida, Retorno, Finalizada, Recusada pelo Service, Recusada, Glosada (enum) - Status da OS
-    + Padrão: Solicitada
-+ `legacy_code`: `codigo_legado` (string) - Identificador da OS no sistema legado
++ task_hash: `bca5cd69-6db3-49f8-a622-6e43b18126d4` (string) - Hash único da OS
++ external_url: `providencias/external-task-detail/c80427ba7c114606a2e645b3f99897b6` (string) - Endereço para acesso externo à OS
++ amount: `100.01` (string) - Valor gasto com a Ordem de Serviço
++ task_number: 7 (number) - Número sequêncial para as OSs do escritório
 + delegation_date: `2018-10-15T14:26:29.291870-03:00` (string) - Data de delegação no formato date/time (ISO8601)
 + acceptance_date: `2018-10-15T14:31:17.030168-03:00` (string) - Data de aceite pelo correspondente no formato date/time (ISO8601)
 + execution_date:  `2018-10-16T14:13:00-03:00` (string) - Data de cumprimento no formato date/time (ISO8601)
 + requested_date: `2018-10-15T14:15:46.506425-03:00` (string) - Data de solicitação no formato date/time (ISO8601)
 + acceptance_service_date: `2018-10-15T14:26:18.855924-03:00" (string) - Data de aceite pelo service no formato date/time (ISO8601)
 + refused_service_date: `` (string) - Data de recusa pelo service no formato date/time (ISO8601)
++ finished_date: `` (string) - Data de finalização da OS no formato date/time (ISO8601)
 + return_date: `2018-10-15T14:31:39.472339-03:00` (string) - Data de retorno no formato date/time (ISO8601)
 + refused_date: `` (string) - Data de recusa pelo correspondente no formato date/time (ISO8601)
 + blocked_payment_date: `` (string) - Data de glosa no formato date/time (ISO8601)
-+ finished_date: `` (string) - Data de finalização da OS no formato date/time (ISO8601)
-+ amount: `100.01` (string) - Valor gasto com a Ordem de Serviço
-+ parent: 0 (number) - Identificador da Ordem de Serviço a qual a ordem de serviço atual está vinculada
++ person_asked_by: 0 (number) - Identificador do solicitante responsável pela solicitação da ordem de serviço
 + person_executed_by: 0 (number) - Identificador do correspondente responsável pela execução da ordem de serviço
 + person_distributed_by: 0 (number) - Identificador do service responsável pela contratação da ordem de serviço
-+ task_number: 7 (number) - Número sequêncial para as OSs do escritório
++ person_company_representative: 0 (number) - Identificador do preposto desiginado pelo escritório para acompanhar a ordem de serviço
++ parent: 0 (number) - Identificador da Ordem de Serviço a qual a ordem de serviço atual está vinculada
++ `legacy_code`: `codigo_legado` (string) - Identificador da OS no sistema legado
++ system_prefix: "Sistema de Origem" (string) - Prefixo identificando o sistema de origem caso a OS tenha sido importada.
 + is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
-+ task_hash: `bca5cd69-6db3-49f8-a622-6e43b18126d4` (string) - Hash único da OS
 
 ### TaskCreate
 + final_deadline_date: `2015-05-05T12:30:00` (string, required) - Prazo fatal no formato date/time (ISO8601) de cumprimento da OS
@@ -2109,7 +2384,10 @@ Apaga o centro de custo de acordo com o id informado.
 + requested_date: "2018-10-15T14:15:46.506425-03:00" (string) - Data de solicitação no formato date/time (ISO8601)
 
 ### ServicePriceTable
++ id: 999999 (number, required) - Identificador único da Tabela de Preços no EZL
 + `office_correspondent`: 266 (number, required) - Identificador do escritório correspondente
++ `policy_price`: 999 (number, required) - Identificador do Tipo de Preços vinculado à tabela de preços
++ `office_network`: 0 (number, optional) - Identificador da rede para a qual o preço será exibido
 + `type_task`: 0 (number, optional) - Identificador do tipo de serviço
 + `court_district`: 0 (number, optional) - Identificador da comarca
 + `court_district_complement`: 0 (number, optional) - Identificador do complemento da comarca
@@ -2117,9 +2395,24 @@ Apaga o centro de custo de acordo com o id informado.
 + `client`: 0 (number, optional) - Identificador do cliente
 + `value`: `0.00` (string, optional) - Valor no formato decimal
 + `legacy_code`: `codigo_legado` (string, optional) - Identificador da tabela de preços no sistema de origem
++ system_prefix: "Sistema de Origem" (string) - Prefixo identificando o sistema de origem caso a OS tenha sido importada.
 + is_active: true (boolean) - Identificador de status Ativo/Inativo da OS
+
+### PolicyPrice
++ id: 999999 (number, required) - Identificador único do Tipo de preços no EZL
++ `name`: "Teste" (string, required) - Nome do Tipo do preço no EZL
++ `category`: DEFAULT, PUBLIC, NETWORK (enum) - Categoria do Tipo de preço
++ `billing_moment`: PRE_PAID, POST_PAID (enum) - Momento do faturamento do Tipo de preço
 
 ### CostCenter
 + name: Centro de custos (required) - Nome do centro de custos
 + `legacy_code`: codigo_legado (string) - Identificador do centro de custos no sistema de origem
++ system_prefix: "Sistema de Origem" (string) - Prefixo identificando o sistema de origem caso o Centro de custos tenha sido importado.
 + is_active: true (boolean) - Identificador de status Ativo/Inativo do centro de custos
+
+### ECMTask
++ path: <file> - Arquivo a ser enviado
++ exhibition_name: "nome do arquivo" (string) - Nome de exibição do arquivo para ser utilizado na OS
++ task: 9999 (number) - Id da OS a qual será vinculado o arquivo enviado
++ `legacy_code`: codigo_legado (string, optional) - Identificador do arquivo no sistema de origem
++ system_prefix: "Sistema de Origem" (string, optional) - Prefixo identificando o sistema de origem caso o arquivo tenha sido importado.
